@@ -23,17 +23,34 @@ def binary(x, y,
                          colors['lower_mass_ZAMS']),
            label_text='',
            ax=None):
-    """Draw a binary star system
+    """Draw a binary star system.
     
-    Args:
-        ax: matplotlib axis
-        x, y: center position of binary system
-        size1: radius of primary star
-        size2: radius of secondary star
-        separation: distance between stars
-        colors_tuple: tuple of (primary_color, secondary_color)
-        label: optional label text
-        star_func: callable to draw stars (default: stellar.star)
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    primary : callable
+        Function to draw the primary star.
+    secondary : callable
+        Function to draw the secondary star.
+    size_primary : float, optional
+        Radius of the primary star (default: 0.25).
+    size_secondary : float, optional
+        Radius of the secondary star (default: 0.2).
+    separation : float, optional
+        Distance between the stars (default: 0.6).
+    colors_tuple : tuple, optional
+        Tuple of (primary_color, secondary_color) (default: ZAMS colors).
+    label_text : str, optional
+        Text label to display near the binary (default: '').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
     """
     if ax is None:
         ax = plt.gca()
@@ -63,16 +80,37 @@ def common_envelope(x, y,
                     label_text='Common\nEnvelope',
                     colors_tuple=(colors['ZAMS'], colors['WR'], colors['lower_mass_ZAMS']),
                     ax=None,):
-    """Draw a common envelope phase with two stars inside
+    """Draw a common envelope phase with two stars inside.
     
-    Args:
-        ax: matplotlib axis
-        x, y: center position of system
-        envelope_size: size of the envelope
-        star_sizes: tuple of (primary_size, secondary_size)
-        label_text: optional label text
-        colors_tuple: tuple of (envelope_color, primary_core_color, secondary_core_color)
-        star_func: callable to draw stars (default: stellar.star)
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the system center.
+    y : float
+        Y-coordinate of the system center.
+    primary : callable, optional
+        Function to draw the primary star (default: stellar.star).
+    secondary : callable, optional
+        Function to draw the secondary star (default: stellar.star).
+    primary_size : float, optional
+        Size of the primary core (default: 0.2).
+    secondary_size : float, optional
+        Size of the secondary core (default: 0.15).
+    envelope_size : float, optional
+        Size of the common envelope (default: 0.5).
+    separation : float, optional
+        Distance between the cores (default: 0.5).
+    label_text : str, optional
+        Text label to display near the system (default: 'Common\nEnvelope').
+    colors_tuple : tuple, optional
+        Tuple of (envelope_color, primary_core_color, secondary_core_color)
+        (default: ZAMS, WR, lower_mass_ZAMS colors).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
     """ 
     
     ax = ax or plt.gca()
@@ -96,20 +134,38 @@ def roche_lobe_overflow(x, y,
                         donor_color='orange', accretor_color='yellow', 
                         label_text='Roche Lobe\nOverflow',
                         ax=None):
-    """Draw a Roche lobe overflow (RLO) binary system with teardrop-shaped donor
+    """Draw a Roche lobe overflow (RLO) binary system with teardrop-shaped donor.
     
     Creates a teardrop-shaped donor star with material flowing toward a companion star.
     
-    Args:
-        ax: matplotlib axis
-        x, y: center position of binary system
-        donor_size: size of donor star
-        accretor_size: size of accretor star
-        separation: distance between stars
-        donor_color: color of donor star
-        accretor_color: color of accretor star
-        label_text: optional label text
-        star_func: callable to draw star (default: stellar.star)
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    accretor : callable, optional
+        Function to draw the accretor star (default: stellar.star).
+    flip : bool, optional
+        If True, swap positions of donor and accretor (default: False).
+    donor_size : float, optional
+        Size of the donor star (default: 0.3).
+    accretor_size : float, optional
+        Size of the accretor star (default: 0.25).
+    separation : float, optional
+        Distance between the stars (default: 0.8).
+    donor_color : str, optional
+        Color of the donor star (default: 'orange').
+    accretor_color : str, optional
+        Color of the accretor star (default: 'yellow').
+    label_text : str, optional
+        Text label to display near the system (default: 'Roche Lobe\nOverflow').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
     """
     ax = ax or plt.gca()
     
@@ -186,16 +242,30 @@ def HMS_HMS(x,y,
             label_text='HMS + HMS',
             star_func=None,
             ax=None):
-    """Draw a high-mass main sequence binary system
+    """Draw a high-mass main sequence binary system.
     
-    Args:
-        ax: matplotlib axis
-        x, y: center position of binary system
-        size1: radius of primary star
-        size2: radius of secondary star
-        separation: distance between stars
-        label_text: optional label text
-        star_func: callable to draw stars (default: stellar.star)
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_primary : float, optional
+        Radius of the primary star (default: 0.25).
+    size_secondary : float, optional
+        Radius of the secondary star (default: 0.25).
+    separation : float, optional
+        Distance between the stars (default: 0.7).
+    label_text : str, optional
+        Text label to display near the binary (default: 'HMS + HMS').
+    star_func : callable, optional
+        Function to draw stars (default: None, uses stellar.star).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
     """
     if star_func is None:
         star_func = stellar.star
