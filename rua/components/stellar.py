@@ -18,7 +18,7 @@ _DEFAULT_SUPERNOVA_PATH = os.path.join(_RESOURCES_DIR, 'supernova.png')
 
 
 def star(ax, x, y, size=0.3, color='yellow', edgecolor='black', 
-         label_text='', label_position='bottom', **kwargs):
+         label_text='', label_position='bottom', label_offset=None, **kwargs):
     """
     Draw a cartoon star representation.
 
@@ -41,6 +41,9 @@ def star(ax, x, y, size=0.3, color='yellow', edgecolor='black',
     label_position : str, optional
         Position of the label relative to the star (default: 'bottom').
         Options: 'top', 'bottom', 'left', 'right'.
+    label_offset : float, optional
+        Distance offset from the star to place the label.
+        If None, automatically scales with size (default: None).
     **kwargs
         Additional keyword arguments passed to matplotlib Circle patch.
 
@@ -54,13 +57,16 @@ def star(ax, x, y, size=0.3, color='yellow', edgecolor='black',
     ax.add_patch(circle)
     
     if label_text:
-        add_label(ax, x, y, label_text, label_position)
+        # Auto-scale label offset with size if not specified
+        if label_offset is None:
+            label_offset = size + 0.15
+        add_label(ax, x, y, label_text, label_position, label_offset=label_offset)
     
     return circle
 
 
 def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom', 
-                    image_path=None):
+                    label_offset=None, image_path=None):
     """
     Display supernova PNG image at specified location.
 
@@ -79,6 +85,9 @@ def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom',
     label_position : str, optional
         Position of the label relative to the supernova (default: 'bottom').
         Options: 'top', 'bottom', 'left', 'right'.
+    label_offset : float, optional
+        Distance offset from the supernova to place the label.
+        If None, automatically scales with size (default: None).
     image_path : str, optional
         Path to supernova image file (default: uses package resources).
 
@@ -99,11 +108,14 @@ def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom',
         star(ax, x, y, size=size/2, color='orange', edgecolor='red')
     
     if label_text:
-        add_label(ax, x, y, label_text, label_position)
+        # Auto-scale label offset with size if not specified
+        if label_offset is None:
+            label_offset = size/2 + 0.15
+        add_label(ax, x, y, label_text, label_position, label_offset=label_offset)
 
 
 def zams(ax, x, y, size=0.4, label_text='ZAMS\n(Main Sequence)', 
-         label_position='bottom'):
+         label_position='bottom', label_offset=None):
     """
     Draw a ZAMS (Zero Age Main Sequence) star.
 
@@ -122,17 +134,21 @@ def zams(ax, x, y, size=0.4, label_text='ZAMS\n(Main Sequence)',
     label_position : str, optional
         Position of the label relative to the star (default: 'bottom').
         Options: 'top', 'bottom', 'left', 'right'.
+    label_offset : float, optional
+        Distance offset from the star to place the label.
+        If None, automatically scales with size (default: None).
 
     Returns
     -------
     None
     """
     star(ax, x, y, size=size, color=colors['ZAMS'], edgecolor='black',
-         label_text=label_text, label_position=label_position)
+         label_text=label_text, label_position=label_position, 
+         label_offset=label_offset)
 
 
 def wolf_rayet(ax, x, y, size=0.45, label_text='WR Phase\n(He-burning)', 
-               label_position='right'):
+               label_position='right', label_offset=None):
     """
     Draw a Wolf-Rayet phase star.
 
@@ -151,17 +167,21 @@ def wolf_rayet(ax, x, y, size=0.45, label_text='WR Phase\n(He-burning)',
     label_position : str, optional
         Position of the label relative to the star (default: 'right').
         Options: 'top', 'bottom', 'left', 'right'.
+    label_offset : float, optional
+        Distance offset from the star to place the label.
+        If None, automatically scales with size (default: None).
 
     Returns
     -------
     None
     """
     star(ax, x, y, size=size, color=colors['WR'], edgecolor='black',
-         label_text=label_text, label_position=label_position)
+         label_text=label_text, label_position=label_position,
+         label_offset=label_offset)
 
 
 def supernova(ax, x, y, size=1.2, label_text='Supernova\n(BH/NS)', 
-              label_position='right', image_path=None):
+              label_position='right', label_offset=None, image_path=None):
     """
     Draw a supernova explosion.
 
@@ -180,6 +200,9 @@ def supernova(ax, x, y, size=1.2, label_text='Supernova\n(BH/NS)',
     label_position : str, optional
         Position of the label relative to the supernova (default: 'right').
         Options: 'top', 'bottom', 'left', 'right'.
+    label_offset : float, optional
+        Distance offset from the supernova to place the label.
+        If None, automatically scales with size (default: None).
     image_path : str, optional
         Path to supernova image file (default: uses package resources).
 
@@ -188,4 +211,5 @@ def supernova(ax, x, y, size=1.2, label_text='Supernova\n(BH/NS)',
     None
     """
     supernova_image(ax, x, y, size=size, label_text=label_text, 
-                    label_position=label_position, image_path=image_path)
+                    label_position=label_position, label_offset=label_offset,
+                    image_path=image_path)

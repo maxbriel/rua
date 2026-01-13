@@ -7,7 +7,7 @@ Contains utilities for labels, arrows, and other visual elements.
 from matplotlib.patches import FancyArrowPatch
 
 
-def add_label(ax, x, y, label_text, label_position='bottom', label_offset=0.4):
+def add_label(ax, x, y, label_text, label_position='bottom', label_offset=0.6):
     """
     Add a label to an object at the specified position.
 
@@ -39,9 +39,9 @@ def add_label(ax, x, y, label_text, label_position='bottom', label_offset=0.4):
     elif label_position == 'top':
         label_x, label_y, ha, va = x, y + offset, 'center', 'bottom'
     elif label_position == 'left':
-        label_x, label_y, ha, va = x - offset, y, 'center', 'center'
+        label_x, label_y, ha, va = x - offset, y, 'right', 'center'
     elif label_position == 'right':
-        label_x, label_y, ha, va = x + offset, y, 'center', 'center'
+        label_x, label_y, ha, va = x + offset, y, 'left', 'center'
     else:
         # Default to bottom
         label_x, label_y, ha, va = x, y - offset, 'center', 'top'
