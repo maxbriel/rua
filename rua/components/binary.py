@@ -242,7 +242,7 @@ def HMS_HMS(x,y,
             label_text='HMS + HMS',
             star_func=None,
             ax=None):
-    """Draw a high-mass main sequence binary system.
+    """Draw a binary system with two hydrogen-burning main sequence stars.
     
     Parameters
     ----------

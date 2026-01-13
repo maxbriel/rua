@@ -1,0 +1,8 @@
+# Documentation build directory
+_build/
+_static/
+_templates/
+
+# Sphinx auto-generated files
+*.rst~
+.doctrees/
