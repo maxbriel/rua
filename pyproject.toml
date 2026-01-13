@@ -10,12 +10,10 @@ readme = "README.md"
 authors = [
     {name = "Max Briel", email = "max.briel@gmail.com"}
 ]
-license = {text = "MIT"}
 requires-python = ">=3.8"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -25,7 +23,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Astronomy",
     "Topic :: Scientific/Engineering :: Visualization",
 ]
-keywords = ["astronomy", "stellar-evolution", "visualization", "wolf-rayet"]
+keywords = ["astronomy", "stellar-evolution", "visualization",]
 
 dependencies = [
     "matplotlib>=3.5.0",
