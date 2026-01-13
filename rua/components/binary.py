@@ -11,6 +11,7 @@ from rua.utils.colors import colors
 from rua.components import stellar, compact
 from rua.components.decorator import label
 
+# Default binary drawing function
 
 def binary(x, y,
            primary,
@@ -50,41 +51,7 @@ def binary(x, y,
               label_text=label_text,
               label_position='bottom',)
 
-
-
-
-
-####### COMMON BINARY TYPES ########
-
-def HMS_HMS(x,y,
-            size_primary=0.25,
-            size_secondary=0.25,
-            separation=0.7, 
-            label_text='HMS + HMS',
-            star_func=None,
-            ax=None):
-    """Draw a high-mass main sequence binary system
-    
-    Args:
-        ax: matplotlib axis
-        x, y: center position of binary system
-        size1: radius of primary star
-        size2: radius of secondary star
-        separation: distance between stars
-        label_text: optional label text
-        star_func: callable to draw stars (default: stellar.star)
-    """
-    if star_func is None:
-        star_func = stellar.star
-        
-    if ax is None:
-        ax = plt.gca()
-    
-    binary(x, y, size_primary=size_primary, size_secondary=size_secondary, separation=separation, 
-           colors_tuple=(colors['ZAMS'], colors['ZAMS']), 
-           label_text=label_text, primary=star_func, secondary=star_func, ax=ax)
-
-
+### Special Binary Phases ###
 
 def common_envelope(x, y,
                     primary=stellar.star,
@@ -118,6 +85,127 @@ def common_envelope(x, y,
     
     if label_text:
         label(ax, x, y, label_text, label_position='bottom')
+
+
+def roche_lobe_overflow(x, y,
+                        accretor=stellar.star,
+                        flip=False,
+                        donor_size=0.3,
+                        accretor_size=0.25,
+                        separation=0.8,
+                        donor_color='orange', accretor_color='yellow', 
+                        label_text='Roche Lobe\nOverflow',
+                        ax=None):
+    """Draw a Roche lobe overflow (RLO) binary system with teardrop-shaped donor
+    
+    Creates a teardrop-shaped donor star with material flowing toward a companion star.
+    
+    Args:
+        ax: matplotlib axis
+        x, y: center position of binary system
+        donor_size: size of donor star
+        accretor_size: size of accretor star
+        separation: distance between stars
+        donor_color: color of donor star
+        accretor_color: color of accretor star
+        label_text: optional label text
+        star_func: callable to draw star (default: stellar.star)
+    """
+    ax = ax or plt.gca()
+    
+    # Position donor and accretor (accretor on left, donor on right)
+    if flip:
+        accretor_x = x - separation/2
+        donor_x = x + separation/2
+    else:
+        accretor_x = x + separation/2
+        donor_x = x - separation/2
+        
+    accretor(accretor_x, y, size=accretor_size,     color=accretor_color, ax=ax)
+    
+    # Create pear/bulb shape: large rounded bulb on left, narrow on right
+    teardrop_points = []
+    
+    n_points = 60
+    
+    # Create 3/4 circle (from 0 to 3π/2, leaving top-right quadrant open)
+    circle_start_angle = 0
+    circle_end_angle = 3/2 * np.pi
+    
+    for i in range(n_points):
+        angle = circle_start_angle + i * (circle_end_angle - circle_start_angle) / (n_points - 1)
+        px = donor_x + donor_size * np.cos(angle)
+        py = y + donor_size * np.sin(angle)
+        teardrop_points.append([px, py])
+    
+    # Add the pointing tip in the missing quadrant (top-right corner)
+    # This creates the teardrop point toward the accretor
+    tip_x = donor_x + donor_size * 1  # Adjust 0.7 to control how far the point extends
+    tip_y = y - donor_size 
+    teardrop_points.append([tip_x, tip_y])
+    
+    # Rotate all points by 45 degrees around donor center
+    if flip:
+        rotation_angle = np.pi * 5/4 
+    else:
+        rotation_angle = np.pi / 4  # 45 degrees in radians
+        
+    cos_theta = np.cos(rotation_angle)
+    sin_theta = np.sin(rotation_angle)
+    
+    rotated_points = []
+    for px, py in teardrop_points:
+        # Translate to origin
+        px_rel = px - donor_x
+        py_rel = py - y
+        # Rotate
+        px_rot = px_rel * cos_theta - py_rel * sin_theta
+        py_rot = px_rel * sin_theta + py_rel * cos_theta
+        # Translate back
+        rotated_points.append([px_rot + donor_x, py_rot + y])
+    
+    teardrop_points = rotated_points
+            
+    # Create and draw pear shape
+    pear = Polygon(teardrop_points, facecolor=donor_color, 
+                   edgecolor='black', linewidth=0.5, zorder=3)
+    ax.add_patch(pear)
+
+    # Add label
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+
+####### COMMON BINARY TYPES ########
+
+def HMS_HMS(x,y,
+            size_primary=0.25,
+            size_secondary=0.25,
+            separation=0.7, 
+            label_text='HMS + HMS',
+            star_func=None,
+            ax=None):
+    """Draw a high-mass main sequence binary system
+    
+    Args:
+        ax: matplotlib axis
+        x, y: center position of binary system
+        size1: radius of primary star
+        size2: radius of secondary star
+        separation: distance between stars
+        label_text: optional label text
+        star_func: callable to draw stars (default: stellar.star)
+    """
+    if star_func is None:
+        star_func = stellar.star
+        
+    if ax is None:
+        ax = plt.gca()
+    
+    binary(x, y, size_primary=size_primary, size_secondary=size_secondary, separation=separation, 
+           colors_tuple=(colors['ZAMS'], colors['ZAMS']), 
+           label_text=label_text, primary=star_func, secondary=star_func, ax=ax)
 
 
 # def CO_binary(ax, x, y, size_star=0.25, size_compact=0.15, separation=0.6, 
@@ -335,77 +423,3 @@ def common_envelope(x, y,
 #         add_label(ax, x, y, label_text, label_position='bottom')
 
 
-# def roche_lobe_overflow(ax, x, y, donor_size=0.3, accretor_size=0.25, separation=0.8, 
-#                         donor_color='orange', accretor_color='yellow', 
-#                         label_text='Roche Lobe\nOverflow', star_func=None):
-#     """Draw a Roche lobe overflow (RLO) binary system with teardrop-shaped donor
-    
-#     Creates a teardrop-shaped donor star with material flowing toward a companion star.
-    
-#     Args:
-#         ax: matplotlib axis
-#         x, y: center position of binary system
-#         donor_size: size of donor star
-#         accretor_size: size of accretor star
-#         separation: distance between stars
-#         donor_color: color of donor star
-#         accretor_color: color of accretor star
-#         label_text: optional label text
-#         star_func: callable to draw star (default: stellar.star)
-#     """
-#     if star_func is None:
-#         star_func = stellar.star
-    
-#     # Position donor and accretor (accretor on left, donor on right)
-#     accretor_x = x + separation/2
-#     donor_x = x - separation/2
-        
-#     star_func(ax, accretor_x, y, size=accretor_size, color=accretor_color)
-    
-#     # Create pear/bulb shape: large rounded bulb on left, narrow on right
-#     teardrop_points = []
-    
-#     n_points = 60
-    
-#     # Create 3/4 circle (from 0 to 3π/2, leaving top-right quadrant open)
-#     circle_start_angle = 0
-#     circle_end_angle = 3/2 * np.pi
-    
-#     for i in range(n_points):
-#         angle = circle_start_angle + i * (circle_end_angle - circle_start_angle) / (n_points - 1)
-#         px = donor_x + donor_size * np.cos(angle)
-#         py = y + donor_size * np.sin(angle)
-#         teardrop_points.append([px, py])
-    
-#     # Add the pointing tip in the missing quadrant (top-right corner)
-#     # This creates the teardrop point toward the accretor
-#     tip_x = donor_x + donor_size * 1  # Adjust 0.7 to control how far the point extends
-#     tip_y = y - donor_size 
-#     teardrop_points.append([tip_x, tip_y])
-    
-#     # Rotate all points by 45 degrees around donor center
-#     rotation_angle = np.pi / 4  # 45 degrees in radians
-#     cos_theta = np.cos(rotation_angle)
-#     sin_theta = np.sin(rotation_angle)
-    
-#     rotated_points = []
-#     for px, py in teardrop_points:
-#         # Translate to origin
-#         px_rel = px - donor_x
-#         py_rel = py - y
-#         # Rotate
-#         px_rot = px_rel * cos_theta - py_rel * sin_theta
-#         py_rot = px_rel * sin_theta + py_rel * cos_theta
-#         # Translate back
-#         rotated_points.append([px_rot + donor_x, py_rot + y])
-    
-#     teardrop_points = rotated_points
-            
-#     # Create and draw pear shape
-#     pear = Polygon(teardrop_points, facecolor=donor_color, 
-#                    edgecolor='black', linewidth=0.5, zorder=3)
-#     ax.add_patch(pear)
-
-#     # Add label
-#     if label_text:
-#         add_label(ax, x, y, label_text, label_position='bottom')
