@@ -12,19 +12,6 @@ import matplotlib.image as mpimg
 import numpy as np
 import os
 
-colors = {
-    'zams': '#ffd3ac',  # light orange
-    'lower_mass_zams': '#c97889',  # light pink
-    'wr': '#C3D0D8',    # light gray-blue
-    'envelope': '#95ACBF',  # gray-blue
-    'supernova': '#FFA500',  # orange
-    'neutron_star_outer': '#B0E0E6',  # powder blue
-    'neutron_star_middle': '#D4EFF5',  # very light blue
-    'neutron_star_inner': '#F0F8FF',  # alice blue
-    'black_hole': '#3E3E3E'  # dark gray
-}
-
-
 def draw_star(ax, x, y, size=0.3, color='yellow', edgecolor='black', label='', hatch=None):
     """Draw a cartoon star representation"""
     circle = Circle((x, y), size, facecolor=color, edgecolor=edgecolor, linewidth=0.5, zorder=3, hatch=hatch)
