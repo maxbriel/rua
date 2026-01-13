@@ -24,7 +24,7 @@ def binary(x, y,
            label_text='',
            ax=None):
     """Draw a binary star system.
-    
+
     Parameters
     ----------
     x : float
@@ -101,7 +101,7 @@ def common_envelope(x, y,
     separation : float, optional
         Distance between the cores (default: 0.5).
     label_text : str, optional
-        Text label to display near the system (default: 'Common\nEnvelope').
+        Text label to display near the system (default: 'Common Envelope').
     colors_tuple : tuple, optional
         Tuple of (envelope_color, primary_core_color, secondary_core_color)
         (default: ZAMS, WR, lower_mass_ZAMS colors).
@@ -135,9 +135,9 @@ def roche_lobe_overflow(x, y,
                         label_text='Roche Lobe\nOverflow',
                         ax=None):
     """Draw a Roche lobe overflow (RLO) binary system with teardrop-shaped donor.
-    
+
     Creates a teardrop-shaped donor star with material flowing toward a companion star.
-    
+
     Parameters
     ----------
     x : float
@@ -159,10 +159,10 @@ def roche_lobe_overflow(x, y,
     accretor_color : str, optional
         Color of the accretor star (default: 'yellow').
     label_text : str, optional
-        Text label to display near the system (default: 'Roche Lobe\nOverflow').
+        Text label to display near the system (default: 'Roche Lobe Overflow').
     ax : matplotlib.axes.Axes, optional
         The matplotlib axis to draw on (default: None, uses current axes).
-    
+
     Returns
     -------
     None

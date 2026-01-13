@@ -124,28 +124,29 @@ def zams(x, y, size=0.4, label_text='ZAMS\n(Main Sequence)',
          label_position='bottom', label_offset=None, ax=None):
     """Draw a ZAMS (Zero Age Main Sequence) star.
 
-        Parameters
-        ----------
-        x : float
-            X-coordinate of the star center.
-        y : float
-            Y-coordinate of the star center.
-        size : float, optional
-            Radius of the star (default: 0.4).
-        label_text : str, optional
-            Text label to display near the star (default: 'ZAMS\n(Main Sequence)').
-        label_position : str, optional
-            Position of the label relative to the star (default: 'bottom').
-            Options: 'top', 'bottom', 'left', 'right'.
-        label_offset : float, optional
-            Distance offset from the star to place the label.
-            If None, automatically scales with size (default: None).
-        ax : matplotlib.axes.Axes, optional
-            The matplotlib axis to draw on (default: None, uses current axes).
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the star center.
+    y : float
+        Y-coordinate of the star center.
+    size : float, optional
+        Radius of the star (default: 0.4).
+    label_text : str, optional
+        Text label to display near the star (default: 'ZAMS (Main Sequence)').
+    label_position : str, optional
+        Position of the label relative to the star (default: 'bottom').
+        Options: 'top', 'bottom', 'left', 'right'.
+    label_offset : float, optional
+        Distance offset from the star to place the label.
+        If None, automatically scales with size (default: None).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
 
-        Returns
-        -------
-        None"""
+    Returns
+    -------
+    None
+    """
     star(x, y, size=size, color=colors['ZAMS'], edgecolor='black',
          label_text=label_text, label_position=label_position, 
          label_offset=label_offset, ax=ax)
@@ -153,8 +154,7 @@ def zams(x, y, size=0.4, label_text='ZAMS\n(Main Sequence)',
 
 def wolf_rayet(x, y, size=0.45, label_text='WR Phase\n(He-burning)', 
                label_position='right', label_offset=None, ax=None):
-    """
-    Draw a Wolf-Rayet phase star.
+    """Draw a Wolf-Rayet phase star.
 
     Parameters
     ----------
@@ -165,7 +165,7 @@ def wolf_rayet(x, y, size=0.45, label_text='WR Phase\n(He-burning)',
     size : float, optional
         Radius of the star (default: 0.45).
     label_text : str, optional
-        Text label to display near the star (default: 'WR Phase\n(He-burning)').
+        Text label to display near the star (default: 'WR Phase (He-burning)').
     label_position : str, optional
         Position of the label relative to the star (default: 'right').
         Options: 'top', 'bottom', 'left', 'right'.
@@ -186,8 +186,7 @@ def wolf_rayet(x, y, size=0.45, label_text='WR Phase\n(He-burning)',
 
 def supernova(x, y, size=1.2, label_text='Supernova\n(BH/NS)', 
               label_position='right', label_offset=None, image_path=None, ax=None):
-    """
-    Draw a supernova explosion.
+    """Draw a supernova explosion.
 
     Parameters
     ----------
@@ -198,7 +197,7 @@ def supernova(x, y, size=1.2, label_text='Supernova\n(BH/NS)',
     size : float, optional
         Size of the supernova image (default: 1.2).
     label_text : str, optional
-        Text label to display near the supernova (default: 'Supernova\n(BH/NS)').
+        Text label to display near the supernova (default: 'Supernova (BH/NS)').
     label_position : str, optional
         Position of the label relative to the supernova (default: 'right').
         Options: 'top', 'bottom', 'left', 'right'.

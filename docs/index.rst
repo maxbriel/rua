@@ -56,7 +56,6 @@ Here's a simple example to get you started::
    installation
    quickstart
    api/index
-   building
 
 Indices and tables
 ==================
