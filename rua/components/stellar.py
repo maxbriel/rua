@@ -9,7 +9,7 @@ import matplotlib.image as mpimg
 import os
 
 from rua.utils.colors import colors
-from rua.components.decorator import add_label
+from rua.components.decorator import label
 
 # Get the path to the resources directory
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -60,7 +60,7 @@ def star(ax, x, y, size=0.3, color='yellow', edgecolor='black',
         # Auto-scale label offset with size if not specified
         if label_offset is None:
             label_offset = size + 0.15
-        add_label(ax, x, y, label_text, label_position, label_offset=label_offset)
+        label(ax, x, y, label_text, label_position, label_offset=label_offset)
     
     return circle
 
@@ -111,7 +111,7 @@ def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom',
         # Auto-scale label offset with size if not specified
         if label_offset is None:
             label_offset = size/2 + 0.15
-        add_label(ax, x, y, label_text, label_position, label_offset=label_offset)
+        label(ax, x, y, label_text, label_position, label_offset=label_offset)
 
 
 def zams(ax, x, y, size=0.4, label_text='ZAMS\n(Main Sequence)', 
