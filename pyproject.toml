@@ -40,16 +40,13 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/binary-diagrams"
-Documentation = "https://github.com/yourusername/binary-diagrams#readme"
-Repository = "https://github.com/yourusername/binary-diagrams"
+Homepage = "https://github.com/maxbriel/rua"
+Documentation = "https://github.com/maxbriel/rua#readme"
+Repository = "https://github.com/maxbriel/rua"
 
-[project.scripts]
-create-binary-diagram = "binary_diagrams.cli:main_binary"
-create-single-star-diagram = "binary_diagrams.cli:main_single"
 
 [tool.setuptools]
-packages = ["binary_diagrams"]
+packages = ["rua"]
 
 [tool.setuptools.package-data]
-binary_diagrams = ["*.png", "*.jpg", "*.jpeg"]
+rua = ["*.png", "*.jpg", "*.jpeg"]
