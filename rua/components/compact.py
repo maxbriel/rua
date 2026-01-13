@@ -10,7 +10,7 @@ from rua.components.stellar import star
 from rua.components.decorator import label
 
 
-def NS(ax, x, y, size=0.1, label_text='Neutron Star'):
+def NS(x, y, size=0.1, label_text='NS', ax=None, **kwargs):
     """Draw neutron star with radial gradient (white to light blue)
     
     Creates a three-layer effect: outer (powder blue), middle (very light blue),
@@ -22,12 +22,30 @@ def NS(ax, x, y, size=0.1, label_text='Neutron Star'):
         size: outer layer size
         label_text: optional label text
     """
-    star(ax, x, y, size=0.1, color=colors['NS_outer'], edgecolor='black')  # Outer: powder blue
-    star(ax, x, y, size=0.07, color=colors['NS_middle'], edgecolor='none')  # Middle: very light blue
-    star(ax, x, y, size=0.04, color=colors['NS_inner'], edgecolor='none')  # Inner: near white (alice blue)
+    if ax is None:
+        ax = plt.gca()
+    star(ax=ax,
+         x=x,
+         y=y,
+         size=0.1,
+         label_text=label_text,
+         color=colors['NS_outer'],
+         edgecolor='black')  # Outer: powder blue
+    star(ax=ax,
+         x=x,
+         y=y,
+         size=0.07,
+         color=colors['NS_middle'],
+         edgecolor='none')  # Middle: very light blue
+    star(ax=ax,
+         x=x,
+         y=y,
+         size=0.04,
+         color=colors['NS_inner'],
+         edgecolor='none')  # Inner: near white (alice blue)
 
 
-def BH(ax, x, y, size=0.2, label_text='Black Hole'):
+def BH(x, y, size=0.2, label_text='Black Hole', ax=None, **kwargs):
     """Draw black hole
     
     Args:
@@ -36,9 +54,23 @@ def BH(ax, x, y, size=0.2, label_text='Black Hole'):
         size: black hole size
         label_text: optional label text
     """
-    star(ax, x, y, size=size, color=colors['BH'], edgecolor='black')  # Outer: dark gray
+    ax = ax or plt.gca()
+    
+    star(ax=ax,
+         x=x,
+         y=y,
+         size=size,
+         color=colors['BH'],
+         edgecolor='black',
+         label_text=label_text,
+         **kwargs)  # Outer: dark gray
 
-def WD(ax, x, y, size=0.15, label_text='White Dwarf'):
+def WD(x,
+       y,
+       size=0.15,
+       label_text='WD',
+       ax=None,
+       **kwargs):
     """Draw white dwarf
     
     Args:
@@ -47,10 +79,19 @@ def WD(ax, x, y, size=0.15, label_text='White Dwarf'):
         size: white dwarf size
         label_text: optional label text
     """
-    star(ax, x, y, size=size, color=colors['WD'], edgecolor='black')  # White dwarf: white color
+    ax = ax or plt.gca()
+    
+    star(ax=ax,
+         x=x,
+         y=y,
+         size=size,
+         color=colors['WD'],
+         edgecolor='black',
+         label_text=label_text,
+         **kwargs)  # White dwarf: white color
 
 
-def compact_objects(ax, x, y, size=0.2, label_text='', label_position='right'):
+def compact_objects(x, y, size=0.4, label_text='', label_position='right', ax=None):
     """Draw a compact object (neutron star or black hole)
     
     Shows both NS and BH with a slash separator to indicate either/or.
@@ -62,13 +103,16 @@ def compact_objects(ax, x, y, size=0.2, label_text='', label_position='right'):
         label_text: optional label text
         label_position: 'top', 'bottom', 'left', or 'right'
     """
+    ax = ax or plt.gca()
     # Neutron star
     ns_x, ns_y = x-0.3, y
     bh_x, bh_y = x+0.3, y
     
-    NS(ax, ns_x, ns_y, size=0.1)
-    ax.text(x-0.05, y, '/', ha='center', va='center', fontsize=20, fontweight='bold')
-    BH(ax, bh_x, bh_y, size=size)
+    NS(ns_x, ns_y, size=size-0.1, label_text='', ax=ax)
+    ax.text(x-0.02, y, '/', ha='center', va='center', fontsize=20, fontweight='bold')
+    BH(bh_x, bh_y, size=size, label_text='', ax=ax)
     
     if label_text:
-        label(ax, x, y, label_text, label_position=label_position)
+        # Scale label offset with size
+        label_offset = size + 0.15
+        label(ax, x, y, label_text, label_position=label_position, label_offset=label_offset)
