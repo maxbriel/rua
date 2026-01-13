@@ -101,25 +101,31 @@ def arrow(ax, x1, y1, x2, y2,
             label_x = mid_x + label_offset - 0.2
             label_y = mid_y
             ha = 'left'
+            va = 'center'
         elif label_position == 'left':
             label_x = mid_x - label_offset + 0.2
             label_y = mid_y
             ha = 'right'
+            va = 'center'
         elif label_position == 'top':
             label_x = mid_x
             label_y = mid_y + label_offset - 0.2
             ha = 'center'
+            va = 'bottom'
         elif label_position == 'bottom':
             label_x = mid_x
-            label_y = mid_y - label_offset
+            label_y = mid_y - label_offset + 0.2
             ha = 'center'
+            va = 'top'
         else:
             # Default to right
             label_x = mid_x + label_offset - 0.2
             label_y = mid_y
             ha = 'left'
+            va = 'center'
         
-        ax.text(label_x, label_y, label, ha=ha, fontsize=8,
+        ax.text(label_x, label_y, label, ha=ha,
+                va=va, fontsize=8,
                 style='italic',
                 bbox=dict(boxstyle='round,pad=0.4', facecolor='white',
                          alpha=0.8))
