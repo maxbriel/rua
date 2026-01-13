@@ -5,7 +5,7 @@ Canvas setup functions for creating clean diagram figures.
 import matplotlib.pyplot as plt
 
 
-def setup_canvas(width=10, height=6, xlim=(-5, 5), ylim=(-3, 3), 
+def setup_canvas(width=3.38*2, height=3.38*2, xlim=None, ylim=None, 
                  aspect='equal', remove_axes=True):
     """Create a clean canvas for drawing stellar evolution diagrams.
 
@@ -47,8 +47,14 @@ def setup_canvas(width=10, height=6, xlim=(-5, 5), ylim=(-3, 3),
     fig, ax = plt.subplots(figsize=(width, height))
     
     # Set axis limits
-    ax.set_xlim(xlim)
-    ax.set_ylim(ylim)
+    if xlim is not None:
+        ax.set_xlim(xlim)
+    else:
+        ax.set_xlim(0, width)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+    else:
+        ax.set_ylim(0, height)
     
     # Set aspect ratio
     ax.set_aspect(aspect)
