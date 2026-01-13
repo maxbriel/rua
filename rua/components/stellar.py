@@ -17,15 +17,13 @@ _RESOURCES_DIR = os.path.join(os.path.dirname(_MODULE_DIR), 'resources')
 _DEFAULT_SUPERNOVA_PATH = os.path.join(_RESOURCES_DIR, 'supernova.png')
 
 
-def star(ax, x, y, size=0.3, color='yellow', edgecolor='black', 
-         label_text='', label_position='bottom', label_offset=None, **kwargs):
+def star(x, y, size=0.3, color='yellow', edgecolor='black', 
+         label_text='', label_position='bottom', label_offset=None, ax=None, **kwargs):
     """
     Draw a cartoon star representation.
-
+    
     Parameters
     ----------
-    ax : matplotlib.axes.Axes
-        The matplotlib axis to draw on.
     x : float
         X-coordinate of the star center.
     y : float
@@ -44,6 +42,8 @@ def star(ax, x, y, size=0.3, color='yellow', edgecolor='black',
     label_offset : float, optional
         Distance offset from the star to place the label.
         If None, automatically scales with size (default: None).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
     **kwargs
         Additional keyword arguments passed to matplotlib Circle patch.
 
@@ -52,6 +52,9 @@ def star(ax, x, y, size=0.3, color='yellow', edgecolor='black',
     circle : matplotlib.patches.Circle
         The Circle patch object added to the axis.
     """
+    if ax is None:
+        ax = plt.gca()
+    
     circle = Circle((x, y), size, facecolor=color, edgecolor=edgecolor, 
                     linewidth=0.5, zorder=3, **kwargs)
     ax.add_patch(circle)
@@ -65,15 +68,13 @@ def star(ax, x, y, size=0.3, color='yellow', edgecolor='black',
     return circle
 
 
-def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom', 
-                    label_offset=None, image_path=None):
+def supernova_image(x, y, size=1.0, label_text='', label_position='bottom', 
+                    label_offset=None, image_path=None, ax=None):
     """
     Display supernova PNG image at specified location.
 
     Parameters
     ----------
-    ax : matplotlib.axes.Axes
-        The matplotlib axis to draw on.
     x : float
         X-coordinate of the supernova center.
     y : float
@@ -90,11 +91,16 @@ def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom',
         If None, automatically scales with size (default: None).
     image_path : str, optional
         Path to supernova image file (default: uses package resources).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
 
     Returns
     -------
     None
     """
+    if ax is None:
+        ax = plt.gca()
+    
     if image_path is None:
         image_path = _DEFAULT_SUPERNOVA_PATH
 
@@ -105,7 +111,7 @@ def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom',
         ax.imshow(img, extent=extent, aspect='auto', zorder=3)
     else:
         # Fallback to drawing a simple star if image not found
-        star(ax, x, y, size=size/2, color='orange', edgecolor='red')
+        star(x, y, size=size/2, color='orange', edgecolor='red', ax=ax)
     
     if label_text:
         # Auto-scale label offset with size if not specified
@@ -114,48 +120,44 @@ def supernova_image(ax, x, y, size=1.0, label_text='', label_position='bottom',
         label(ax, x, y, label_text, label_position, label_offset=label_offset)
 
 
-def zams(ax, x, y, size=0.4, label_text='ZAMS\n(Main Sequence)', 
-         label_position='bottom', label_offset=None):
-    """
-    Draw a ZAMS (Zero Age Main Sequence) star.
+def zams(x, y, size=0.4, label_text='ZAMS\n(Main Sequence)', 
+         label_position='bottom', label_offset=None, ax=None):
+    """Draw a ZAMS (Zero Age Main Sequence) star.
 
-    Parameters
-    ----------
-    ax : matplotlib.axes.Axes
-        The matplotlib axis to draw on.
-    x : float
-        X-coordinate of the star center.
-    y : float
-        Y-coordinate of the star center.
-    size : float, optional
-        Radius of the star (default: 0.4).
-    label_text : str, optional
-        Text label to display near the star (default: 'ZAMS\n(Main Sequence)').
-    label_position : str, optional
-        Position of the label relative to the star (default: 'bottom').
-        Options: 'top', 'bottom', 'left', 'right'.
-    label_offset : float, optional
-        Distance offset from the star to place the label.
-        If None, automatically scales with size (default: None).
+        Parameters
+        ----------
+        x : float
+            X-coordinate of the star center.
+        y : float
+            Y-coordinate of the star center.
+        size : float, optional
+            Radius of the star (default: 0.4).
+        label_text : str, optional
+            Text label to display near the star (default: 'ZAMS\n(Main Sequence)').
+        label_position : str, optional
+            Position of the label relative to the star (default: 'bottom').
+            Options: 'top', 'bottom', 'left', 'right'.
+        label_offset : float, optional
+            Distance offset from the star to place the label.
+            If None, automatically scales with size (default: None).
+        ax : matplotlib.axes.Axes, optional
+            The matplotlib axis to draw on (default: None, uses current axes).
 
-    Returns
-    -------
-    None
-    """
-    star(ax, x, y, size=size, color=colors['ZAMS'], edgecolor='black',
+        Returns
+        -------
+        None"""
+    star(x, y, size=size, color=colors['ZAMS'], edgecolor='black',
          label_text=label_text, label_position=label_position, 
-         label_offset=label_offset)
+         label_offset=label_offset, ax=ax)
 
 
-def wolf_rayet(ax, x, y, size=0.45, label_text='WR Phase\n(He-burning)', 
-               label_position='right', label_offset=None):
+def wolf_rayet(x, y, size=0.45, label_text='WR Phase\n(He-burning)', 
+               label_position='right', label_offset=None, ax=None):
     """
     Draw a Wolf-Rayet phase star.
 
     Parameters
     ----------
-    ax : matplotlib.axes.Axes
-        The matplotlib axis to draw on.
     x : float
         X-coordinate of the star center.
     y : float
@@ -170,25 +172,25 @@ def wolf_rayet(ax, x, y, size=0.45, label_text='WR Phase\n(He-burning)',
     label_offset : float, optional
         Distance offset from the star to place the label.
         If None, automatically scales with size (default: None).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
 
     Returns
     -------
     None
     """
-    star(ax, x, y, size=size, color=colors['WR'], edgecolor='black',
+    star(x, y, size=size, color=colors['WR'], edgecolor='black',
          label_text=label_text, label_position=label_position,
-         label_offset=label_offset)
+         label_offset=label_offset, ax=ax)
 
 
-def supernova(ax, x, y, size=1.2, label_text='Supernova\n(BH/NS)', 
-              label_position='right', label_offset=None, image_path=None):
+def supernova(x, y, size=1.2, label_text='Supernova\n(BH/NS)', 
+              label_position='right', label_offset=None, image_path=None, ax=None):
     """
     Draw a supernova explosion.
 
     Parameters
     ----------
-    ax : matplotlib.axes.Axes
-        The matplotlib axis to draw on.
     x : float
         X-coordinate of the supernova center.
     y : float
@@ -205,11 +207,13 @@ def supernova(ax, x, y, size=1.2, label_text='Supernova\n(BH/NS)',
         If None, automatically scales with size (default: None).
     image_path : str, optional
         Path to supernova image file (default: uses package resources).
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
 
     Returns
     -------
     None
     """
-    supernova_image(ax, x, y, size=size, label_text=label_text, 
+    supernova_image(x, y, size=size, label_text=label_text, 
                     label_position=label_position, label_offset=label_offset,
-                    image_path=image_path)
+                    image_path=image_path, ax=ax)

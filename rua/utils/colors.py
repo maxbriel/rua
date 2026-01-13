@@ -12,6 +12,7 @@ colors = {
     'He_star': '#87CEEB',  # sky blue (Helium star)
     'Stripped': '#B0C4DE',  # light steel blue (Stripped envelope)
     'WR': '#C3D0D8',    # light gray-blue
+    'WD': '#FFFFFF',  # white (White Dwarf)
     'Envelope': '#95ACBF',  # gray-blue
     'Supernova': '#FFA500',  # orange
     'NS_outer': '#B0E0E6',  # powder blue
