@@ -6,6 +6,7 @@ and multi-star systems.
 
 Modules:
     canvas: Canvas setup for diagrams
+    grid: Grid system for organizing stellar objects
     components.stellar: Single stellar objects and phases
     components.compact: Compact objects (NS, BH, WD)
     components.binary: Binary star systems
@@ -16,8 +17,9 @@ Modules:
 """
 
 from rua.canvas import setup_canvas
+from rua.grid import Grid
 from rua.utils.colors import colors
 
 __version__ = "0.2.0"
 
-__all__ = ['setup_canvas', 'colors']
+__all__ = ['setup_canvas', 'Grid', 'colors']

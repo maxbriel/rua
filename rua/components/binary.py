@@ -57,13 +57,17 @@ def binary(x, y,
     if ax is None:
         ax = plt.gca()
     
-    
-    primary(x - separation/2, y,
+    print(colors_tuple[0])
+    primary(x= x - separation/2,
+            y=y,
             ax = ax,
-            size=size_primary, color=colors_tuple[0])
-    secondary(x + separation/2, y,
+            size=size_primary,
+            color=colors_tuple[0])
+    secondary(x=x + separation/2,
+              y=y,
               ax = ax,
-              size=size_secondary, color=colors_tuple[1])
+              size=size_secondary,
+              color=colors_tuple[1])
     
     if label_text:
         label(ax, x, y,

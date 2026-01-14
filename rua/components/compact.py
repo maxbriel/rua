@@ -57,8 +57,9 @@ def NS(x, y, size=0.1, label_text='NS', ax=None, **kwargs):
          color=colors['NS_inner'],
          edgecolor='none')  # Inner: near white (alice blue)
 
+neutron_star = NS  # Alias
 
-def BH(x, y, size=0.2, label_text='Black Hole', ax=None, **kwargs):
+def BH(x, y, size=0.2, label_text='Black Hole', color=colors['BH'], ax=None, **kwargs):
     """Draw black hole.
     
     Parameters
@@ -86,15 +87,18 @@ def BH(x, y, size=0.2, label_text='Black Hole', ax=None, **kwargs):
          x=x,
          y=y,
          size=size,
-         color=colors['BH'],
+         color=color,
          edgecolor='black',
          label_text=label_text,
          **kwargs)  # Outer: dark gray
+
+black_hole = BH  # Alias
 
 def WD(x,
        y,
        size=0.15,
        label_text='WD',
+       color=colors['WD'],
        ax=None,
        **kwargs):
     """Draw white dwarf.
@@ -124,11 +128,12 @@ def WD(x,
          x=x,
          y=y,
          size=size,
-         color=colors['WD'],
+         color=color,
          edgecolor='black',
          label_text=label_text,
          **kwargs)  # White dwarf: white color
-
+    
+white_dwarf = WD  # Alias
 
 def compact_objects(x, y, size=0.4, label_text='', label_position='right', ax=None):
     """Draw a compact object (neutron star or black hole).
@@ -168,3 +173,5 @@ def compact_objects(x, y, size=0.4, label_text='', label_position='right', ax=No
         # Scale label offset with size
         label_offset = size + 0.15
         label(ax, x, y, label_text, label_position=label_position, label_offset=label_offset)
+
+CO = compact_objects  # Alias
