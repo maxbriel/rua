@@ -4,7 +4,8 @@ A Python package for creating stellar evolution diagrams of single star and bina
 
 I noticed I was making figures in Google slides, Powerpoint, and Keynote quite often, which 
 worked fine, but required a lot of effort to put together more complex diagrams.
-I created some basic diagrams as a start
+I created some basic diagrams for a project and got annoyed with the effect it took to make.
+I ended up creating some basic phenomena and expanded from there.
 
 ## Features
 
