@@ -2,7 +2,7 @@
 
 A Python package for creating stellar evolution diagrams of single star and binary systems.
 
-I noticed I was making figures in Google slides, Powerpoint, and Keynote quite often, which 
+I noticed I was making figures in Google slides, Powerpoint, and Keynote quite often, which
 worked fine, but required a lot of effort to put together more complex diagrams.
 I created some basic diagrams for a project and got annoyed with the effect it took to make.
 I ended up creating some basic phenomena and expanded from there.
@@ -37,4 +37,3 @@ I'm not yet confident about the package to release it on `conda` or `pip` but th
 
 ## Credits
 Created by [Max Briel](maxbriel.github.io).
-[Supernova icon by Victoruler - Flaticon](https://www.flaticon.com/free-icons/explosion)
