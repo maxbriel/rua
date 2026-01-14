@@ -44,14 +44,37 @@ def gravitational_wave_merger(x, y, size=0.5, n_waves=4,
     """
     ax = ax or plt.gca()
     
-    # Draw gravitational wave rings
-    for i in range(n_waves):
-        wave_radius = size * (0.5 + i * 0.4)
-        alpha = 0.4 - i * 0.08
-        wave = Circle((x, y), wave_radius, facecolor='none',
-                      edgecolor=colors['gw_wave'], linewidth=2,
-                      alpha=alpha, linestyle='-', zorder=0)
-        ax.add_patch(wave)
+    # Draw gravitational wave inspiral pattern (spiral arms)
+    n_arms = 2  # Binary systems produce quadrupole radiation (2 main arms)
+    for arm in range(n_arms):
+        arm_offset = arm * np.pi  # 180 degrees apart for binary
+        
+        # Create spiral using parametric equations
+        theta = np.linspace(0, n_waves * 2 * np.pi, 200)
+        r = size * (0.3 + theta / (4 * np.pi))  # Archimedean spiral
+        
+        # Convert to Cartesian coordinates
+        spiral_x = x + r * np.cos(theta + arm_offset)
+        spiral_y = y + r * np.sin(theta + arm_offset)
+        
+        # Draw spiral with gradient alpha (fading outward)
+        n_segments = 10
+        points_per_segment = len(theta) // n_segments
+        
+        for seg in range(n_segments):
+            start_idx = seg * points_per_segment
+            end_idx = (seg + 1) * points_per_segment if seg < n_segments - 1 else len(theta)
+            
+            alpha = 0.6 - seg * 0.05  # Fade as spiral extends
+            linewidth = 2.5 - seg * 0.15  # Thin out as it extends
+            
+            ax.plot(spiral_x[start_idx:end_idx], 
+                   spiral_y[start_idx:end_idx],
+                   color=colors['gw_wave'], 
+                   alpha=max(alpha, 0.1),
+                   linewidth=max(linewidth, 0.5),
+                   linestyle='-',
+                   zorder=0)
     
     # Draw two inspiraling compact objects
     offset = size * 0.15
