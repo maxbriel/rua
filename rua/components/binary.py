@@ -5,6 +5,8 @@ Contains functions for drawing binary stars, mass transfer, and binary evolution
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse, Polygon, Circle, Wedge, FancyArrowPatch
+from matplotlib.transforms import Affine2D
+
 import numpy as np
 
 from rua.utils.colors import colors
@@ -926,9 +928,13 @@ def semi_detached_binary(x, y, size_donor=0.3, size_accretor=0.25, separation=0.
 # ============================================================================
 
 def accretion_disk(x, y, inner_radius=0.1, outer_radius=0.3, 
-                   inclination=0.3, label_text='', label_position='bottom',
+                   inclination=0.9, label_text='', label_position='bottom',
                    label_offset=None, ax=None):
     """Draw an accretion disk around a compact object.
+    
+    The disk is rendered in two halves to create a 3D effect: the back half 
+    appears behind the central star (zorder=2), and the front half appears 
+    in front of it (zorder=5).
     
     Parameters
     ----------
@@ -961,17 +967,64 @@ def accretion_disk(x, y, inner_radius=0.1, outer_radius=0.3,
     height_outer = outer_radius * 2 * (1 - inclination * 0.7)
     height_inner = inner_radius * 2 * (1 - inclination * 0.7)
     
-    # Outer disk
-    outer = Ellipse((x, y), width=outer_radius*2, height=height_outer,
-                    facecolor=colors['disk'], alpha=0.6, 
-                    edgecolor='purple', linewidth=0.5, zorder=1)
-    ax.add_patch(outer)
+    # Calculate scale factor for vertical compression
+    scale_y = height_outer / (outer_radius * 2)
+    scale_y_middle = (height_outer * 0.7) / (outer_radius * 1.4)
     
-    # Middle disk region
-    middle = Ellipse((x, y), width=outer_radius*1.4, height=height_outer*0.7,
-                     facecolor=colors['disk_inner'], alpha=0.7, 
-                     edgecolor='none', zorder=1)
-    ax.add_patch(middle)
+    # BACK HALF of disk (behind the star) - upper semicircle
+    # Outer disk back
+    outer_back = Wedge((x, y), outer_radius, 0, 180,
+                       width=outer_radius-inner_radius,
+                       facecolor=colors['disk'], alpha=0.6, 
+                       edgecolor='none', linewidth=0.5, zorder=2)
+    # Scale vertically around the center point (x, y)
+    transform_back = (Affine2D()
+                     .translate(-x, -y)  # Move to origin
+                     .scale(1, scale_y)   # Scale vertically
+                     .translate(x, y)     # Move back to (x, y)
+                     + ax.transData)
+    outer_back.set_transform(transform_back)
+    ax.add_patch(outer_back)
+    
+    # Middle disk region back
+    middle_back = Wedge((x, y), outer_radius*0.7, 0, 180,
+                        width=outer_radius*0.7-inner_radius*0.7,
+                        facecolor=colors['disk_inner'], alpha=0.7, 
+                        edgecolor='none', zorder=2)
+    transform_middle_back = (Affine2D()
+                            .translate(-x, -y)
+                            .scale(1, scale_y_middle)
+                            .translate(x, y)
+                            + ax.transData)
+    middle_back.set_transform(transform_middle_back)
+    ax.add_patch(middle_back)
+    
+    # FRONT HALF of disk (in front of the star) - lower semicircle
+    # Outer disk front
+    outer_front = Wedge((x, y), outer_radius, 180, 360,
+                        width=outer_radius-inner_radius,
+                        facecolor=colors['disk'], alpha=0.6, 
+                        edgecolor='none', linewidth=0.5, zorder=5)
+    transform_front = (Affine2D()
+                      .translate(-x, -y)
+                      .scale(1, scale_y)
+                      .translate(x, y)
+                      + ax.transData)
+    outer_front.set_transform(transform_front)
+    ax.add_patch(outer_front)
+    
+    # Middle disk region front
+    middle_front = Wedge((x, y), outer_radius*0.7, 180, 360,
+                         width=outer_radius*0.7-inner_radius,
+                         facecolor=colors['disk_inner'], alpha=0.7, 
+                         edgecolor='none', zorder=5)
+    transform_middle_front = (Affine2D()
+                             .translate(-x, -y)
+                             .scale(1, scale_y_middle)
+                             .translate(x, y)
+                             + ax.transData)
+    middle_front.set_transform(transform_middle_front)
+    ax.add_patch(middle_front)
     
     if label_text:
         if label_offset is None:
@@ -1119,7 +1172,7 @@ def wind_mass_transfer(x, y, size=0.3, wind_extent=0.5,
     # Draw wind shells (concentric circles with decreasing opacity)
     for i in range(4):
         shell_size = size + wind_extent * (i + 1) / 4
-        alpha = 0.3 - i * 0.06
+        alpha = 1.0 - i * 0.25
         shell = Circle((x, y), shell_size, facecolor='none',
                        edgecolor=colors['wind'], linewidth=1, 
                        alpha=alpha, linestyle='--', zorder=0)

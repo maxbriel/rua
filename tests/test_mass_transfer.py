@@ -18,16 +18,16 @@ ax.set_title('Mass Transfer & Accretion Components', fontsize=16, fontweight='bo
 
 # Row 1: Accretion disks with different properties
 y1 = 10
-accretion_disk(2, y1, inner_radius=0.15, outer_radius=0.5, inclination=0.2,
+accretion_disk(2, y1, inner_radius=0.15, outer_radius=0.5, inclination=0.9,
                label_text='Accretion Disk\n(low inclination)', ax=ax)
 BH(2, y1, size=0.15, label_text='', ax=ax)
 
-accretion_disk(6, y1, inner_radius=0.12, outer_radius=0.6, inclination=0.5,
+accretion_disk(6, y1, inner_radius=0.12, outer_radius=0.6, inclination=1,
                label_text='Accretion Disk\n(high inclination)', ax=ax)
 NS(6, y1, size=0.12, label_text='', ax=ax)
 
 # Jet with accretion disk
-accretion_disk(10, y1, inner_radius=0.12, outer_radius=0.4, inclination=0.3, ax=ax)
+accretion_disk(10, y1, inner_radius=0.12, outer_radius=0.4, inclination=0.9, ax=ax)
 BH(10, y1, size=0.12, label_text='', ax=ax)
 jet(10, y1, length=0.8, width=0.1, label_text='Relativistic Jet', ax=ax)
 
@@ -38,7 +38,7 @@ mass_transfer_stream(4, y2, 7, y2, width=0.06, label_text='Mass Transfer Stream'
 from rua.components.stellar import star
 from rua.utils.colors import colors
 star(3.8, y2, size=0.3, color=colors['RGB'], edgecolor='darkred', ax=ax)
-accretion_disk(7.2, y2, inner_radius=0.1, outer_radius=0.3, ax=ax)
+accretion_disk(7.2, y2, inner_radius=0.1, outer_radius=0.3, ax=ax, inclination=0.8)
 NS(7.2, y2, size=0.1, label_text='', ax=ax)
 
 # Wind mass transfer
