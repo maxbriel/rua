@@ -4,7 +4,7 @@ Contains functions for drawing binary stars, mass transfer, and binary evolution
 """
 
 import matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse, Polygon
+from matplotlib.patches import Ellipse, Polygon, Circle, Wedge, FancyArrowPatch
 import numpy as np
 
 from rua.utils.colors import colors
@@ -276,6 +276,954 @@ def HMS_HMS(x,y,
     binary(x, y, size_primary=size_primary, size_secondary=size_secondary, separation=separation, 
            colors_tuple=(colors['ZAMS'], colors['ZAMS']), 
            label_text=label_text, primary=star_func, secondary=star_func, ax=ax)
+
+
+def HeMS_HMS(x, y, size_primary=0.25, size_secondary=0.25, separation=0.7,
+             label_text='HeMS + HMS', ax=None):
+    """Draw a binary system with a helium main sequence star and hydrogen main sequence star.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_primary : float, optional
+        Radius of the HeMS star (default: 0.25).
+    size_secondary : float, optional
+        Radius of the HMS star (default: 0.25).
+    separation : float, optional
+        Distance between the stars (default: 0.7).
+    label_text : str, optional
+        Text label to display near the binary (default: 'HeMS + HMS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    binary(x, y, size_primary=size_primary, size_secondary=size_secondary, 
+           separation=separation, colors_tuple=(colors['HeMS'], colors['ZAMS']),
+           label_text=label_text, primary=stellar.star, secondary=stellar.star, ax=ax)
+
+
+def WR_HMS(x, y, size_primary=0.2, size_secondary=0.3, separation=0.7,
+           label_text='WR + HMS', ax=None):
+    """Draw a binary system with a Wolf-Rayet star and hydrogen main sequence star.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_primary : float, optional
+        Radius of the WR star (default: 0.2).
+    size_secondary : float, optional
+        Radius of the HMS star (default: 0.3).
+    separation : float, optional
+        Distance between the stars (default: 0.7).
+    label_text : str, optional
+        Text label to display near the binary (default: 'WR + HMS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    binary(x, y, size_primary=size_primary, size_secondary=size_secondary,
+           separation=separation, colors_tuple=(colors['WR'], colors['ZAMS']),
+           label_text=label_text, primary=stellar.star, secondary=stellar.star, ax=ax)
+
+
+def BH_HMS(x, y, size_bh=0.15, size_star=0.3, separation=0.7,
+           label_text='BH + HMS', ax=None):
+    """Draw a binary system with a black hole and hydrogen main sequence star.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_bh : float, optional
+        Size of the black hole (default: 0.15).
+    size_star : float, optional
+        Radius of the HMS star (default: 0.3).
+    separation : float, optional
+        Distance between the objects (default: 0.7).
+    label_text : str, optional
+        Text label to display near the binary (default: 'BH + HMS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.BH(x - separation/2, y, size=size_bh, label_text='', ax=ax)
+    stellar.star(x + separation/2, y, size=size_star, color=colors['ZAMS'], ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def NS_HMS(x, y, size_ns=0.1, size_star=0.3, separation=0.7,
+           label_text='NS + HMS', ax=None):
+    """Draw a binary system with a neutron star and hydrogen main sequence star.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_ns : float, optional
+        Size of the neutron star (default: 0.1).
+    size_star : float, optional
+        Radius of the HMS star (default: 0.3).
+    separation : float, optional
+        Distance between the objects (default: 0.7).
+    label_text : str, optional
+        Text label to display near the binary (default: 'NS + HMS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.NS(x - separation/2, y, size=size_ns, label_text='', ax=ax)
+    stellar.star(x + separation/2, y, size=size_star, color=colors['ZAMS'], ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def BBH(x, y, size1=0.15, size2=0.15, separation=0.5,
+        label_text='BBH', ax=None):
+    """Draw a Binary Black Hole (BBH) system.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size1 : float, optional
+        Size of the first black hole (default: 0.15).
+    size2 : float, optional
+        Size of the second black hole (default: 0.15).
+    separation : float, optional
+        Distance between the black holes (default: 0.5).
+    label_text : str, optional
+        Text label to display near the binary (default: 'BBH').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.BH(x - separation/2, y, size=size1, label_text='', ax=ax)
+    compact.BH(x + separation/2, y, size=size2, label_text='', ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def BNS(x, y, size1=0.1, size2=0.1, separation=0.4,
+        label_text='BNS', ax=None):
+    """Draw a Binary Neutron Star (BNS) system.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size1 : float, optional
+        Size of the first neutron star (default: 0.1).
+    size2 : float, optional
+        Size of the second neutron star (default: 0.1).
+    separation : float, optional
+        Distance between the neutron stars (default: 0.4).
+    label_text : str, optional
+        Text label to display near the binary (default: 'BNS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.NS(x - separation/2, y, size=size1, label_text='', ax=ax)
+    compact.NS(x + separation/2, y, size=size2, label_text='', ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+# Alias for BNS
+NS_NS = BNS
+
+
+def BH_NS(x, y, size_bh=0.15, size_ns=0.1, separation=0.5,
+          label_text='BH + NS', ax=None):
+    """Draw a Black Hole - Neutron Star binary system.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_bh : float, optional
+        Size of the black hole (default: 0.15).
+    size_ns : float, optional
+        Size of the neutron star (default: 0.1).
+    separation : float, optional
+        Distance between the objects (default: 0.5).
+    label_text : str, optional
+        Text label to display near the binary (default: 'BH + NS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.BH(x - separation/2, y, size=size_bh, label_text='', ax=ax)
+    compact.NS(x + separation/2, y, size=size_ns, label_text='', ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def WD_WD(x, y, size1=0.12, size2=0.12, separation=0.4,
+          label_text='WD + WD', ax=None):
+    """Draw a Double White Dwarf binary system.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size1 : float, optional
+        Size of the first white dwarf (default: 0.12).
+    size2 : float, optional
+        Size of the second white dwarf (default: 0.12).
+    separation : float, optional
+        Distance between the white dwarfs (default: 0.4).
+    label_text : str, optional
+        Text label to display near the binary (default: 'WD + WD').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.WD(x - separation/2, y, size=size1, label_text='', ax=ax)
+    compact.WD(x + separation/2, y, size=size2, label_text='', ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def WD_HMS(x, y, size_wd=0.1, size_star=0.25, separation=0.6,
+           label_text='WD + HMS', ax=None):
+    """Draw a White Dwarf + Main Sequence binary system (CV progenitor).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_wd : float, optional
+        Size of the white dwarf (default: 0.1).
+    size_star : float, optional
+        Radius of the HMS star (default: 0.25).
+    separation : float, optional
+        Distance between the objects (default: 0.6).
+    label_text : str, optional
+        Text label to display near the binary (default: 'WD + HMS').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.WD(x - separation/2, y, size=size_wd, label_text='', ax=ax)
+    stellar.star(x + separation/2, y, size=size_star, color=colors['lower_mass_ZAMS'], ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def AM_CVn(x, y, size_accretor=0.1, size_donor=0.08, separation=0.4,
+           label_text='AM CVn', ax=None):
+    """Draw an AM CVn system (WD + He WD with mass transfer).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_accretor : float, optional
+        Size of the accreting white dwarf (default: 0.1).
+    size_donor : float, optional
+        Size of the He donor (default: 0.08).
+    separation : float, optional
+        Distance between the objects (default: 0.4).
+    label_text : str, optional
+        Text label to display near the binary (default: 'AM CVn').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    # Accretor WD with disk
+    accretion_disk(x - separation/2, y, inner_radius=size_accretor, 
+                   outer_radius=size_accretor * 2, ax=ax)
+    compact.WD(x - separation/2, y, size=size_accretor, label_text='', ax=ax)
+    # Helium donor
+    stellar.star(x + separation/2, y, size=size_donor, color=colors['HeMS'], ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def symbiotic_binary(x, y, size_wd=0.1, size_giant=0.4, separation=0.8,
+                     label_text='Symbiotic Binary', ax=None):
+    """Draw a symbiotic binary system (WD + Red Giant).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_wd : float, optional
+        Size of the white dwarf (default: 0.1).
+    size_giant : float, optional
+        Radius of the red giant (default: 0.4).
+    separation : float, optional
+        Distance between the objects (default: 0.8).
+    label_text : str, optional
+        Text label to display near the binary (default: 'Symbiotic Binary').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    compact.WD(x - separation/2, y, size=size_wd, label_text='', ax=ax)
+    stellar.star(x + separation/2, y, size=size_giant, color=colors['RGB'], 
+                 edgecolor='darkred', ax=ax)
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def HMXB(x, y, size_co=0.12, size_star=0.35, separation=0.8, co_type='BH',
+         label_text='HMXB', ax=None):
+    """Draw a High Mass X-ray Binary system.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_co : float, optional
+        Size of the compact object (default: 0.12).
+    size_star : float, optional
+        Radius of the massive star (default: 0.35).
+    separation : float, optional
+        Distance between the objects (default: 0.8).
+    co_type : str, optional
+        Type of compact object: 'BH' or 'NS' (default: 'BH').
+    label_text : str, optional
+        Text label to display near the binary (default: 'HMXB').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # Compact object with accretion disk
+    accretion_disk(x - separation/2, y, inner_radius=size_co, 
+                   outer_radius=size_co * 2.5, ax=ax)
+    if co_type == 'NS':
+        compact.NS(x - separation/2, y, size=size_co, label_text='', ax=ax)
+    else:
+        compact.BH(x - separation/2, y, size=size_co, label_text='', ax=ax)
+    
+    # Massive companion
+    stellar.star(x + separation/2, y, size=size_star, 
+                 color=colors['HMXB_star'], edgecolor='darkred', ax=ax)
+    
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def LMXB(x, y, size_co=0.1, size_star=0.2, separation=0.6, co_type='NS',
+         label_text='LMXB', ax=None):
+    """Draw a Low Mass X-ray Binary system.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_co : float, optional
+        Size of the compact object (default: 0.1).
+    size_star : float, optional
+        Radius of the low-mass star (default: 0.2).
+    separation : float, optional
+        Distance between the objects (default: 0.6).
+    co_type : str, optional
+        Type of compact object: 'BH' or 'NS' (default: 'NS').
+    label_text : str, optional
+        Text label to display near the binary (default: 'LMXB').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # Compact object with accretion disk
+    accretion_disk(x - separation/2, y, inner_radius=size_co, 
+                   outer_radius=size_co * 2.5, ax=ax)
+    if co_type == 'BH':
+        compact.BH(x - separation/2, y, size=size_co, label_text='', ax=ax)
+    else:
+        compact.NS(x - separation/2, y, size=size_co, label_text='', ax=ax)
+    
+    # Low-mass companion
+    stellar.star(x + separation/2, y, size=size_star, 
+                 color=colors['LMXB_star'], edgecolor='darkorange', ax=ax)
+    
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+def cataclysmic_variable(x, y, size_wd=0.1, size_donor=0.2, separation=0.5,
+                         disk_size=0.2, label_text='CV', ax=None):
+    """Draw a Cataclysmic Variable system (WD accreting from donor).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_wd : float, optional
+        Size of the white dwarf (default: 0.1).
+    size_donor : float, optional
+        Radius of the donor star (default: 0.2).
+    separation : float, optional
+        Distance between the objects (default: 0.5).
+    disk_size : float, optional
+        Outer radius of the accretion disk (default: 0.2).
+    label_text : str, optional
+        Text label to display near the binary (default: 'CV').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # WD with accretion disk
+    accretion_disk(x - separation/2, y, inner_radius=size_wd, 
+                   outer_radius=disk_size, ax=ax)
+    compact.WD(x - separation/2, y, size=size_wd, label_text='', ax=ax)
+    
+    # Donor star
+    stellar.star(x + separation/2, y, size=size_donor, 
+                 color=colors['lower_mass_ZAMS'], ax=ax)
+    
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom')
+
+
+# Alias for cataclysmic_variable
+CV = cataclysmic_variable
+
+
+def contact_binary(x, y, size1=0.3, size2=0.25, overlap=0.1,
+                   label_text='Contact Binary', ax=None):
+    """Draw a contact binary system (two stars sharing envelope).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size1 : float, optional
+        Radius of the primary star (default: 0.3).
+    size2 : float, optional
+        Radius of the secondary star (default: 0.25).
+    overlap : float, optional
+        Amount of overlap between stars (default: 0.1).
+    label_text : str, optional
+        Text label to display near the binary (default: 'Contact Binary').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # Calculate positions with overlap
+    separation = size1 + size2 - overlap
+    
+    # Draw contact envelope (figure-8 shape using ellipse approximation)
+    envelope_width = separation + size1 + size2
+    envelope_height = max(size1, size2) * 1.8
+    envelope = Ellipse((x, y), width=envelope_width, height=envelope_height,
+                        facecolor=colors['contact'], alpha=0.4, 
+                        edgecolor='darkorange', linewidth=0.5, zorder=1)
+    ax.add_patch(envelope)
+    
+    # Draw the two stars
+    stellar.star(x - separation/2, y, size=size1, color=colors['contact'], 
+                 edgecolor='darkorange', ax=ax)
+    stellar.star(x + separation/2, y, size=size2, color=colors['contact'], 
+                 edgecolor='darkorange', ax=ax)
+    
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom', 
+              label_offset=envelope_height/2 + 0.2)
+
+
+def overcontact_binary(x, y, size=0.5, label_text='Overcontact Binary', ax=None):
+    """Draw an overcontact binary (both stars overfilling Roche lobes).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size : float, optional
+        Overall size of the system (default: 0.5).
+    label_text : str, optional
+        Text label to display near the binary (default: 'Overcontact Binary').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # Draw peanut-shaped envelope
+    envelope = Ellipse((x, y), width=size*2.5, height=size*1.5,
+                        facecolor=colors['contact'], alpha=0.6, 
+                        edgecolor='darkorange', linewidth=1, zorder=1)
+    ax.add_patch(envelope)
+    
+    # Draw cores
+    stellar.star(x - size*0.5, y, size=size*0.4, color='orange', 
+                 edgecolor='darkorange', ax=ax)
+    stellar.star(x + size*0.5, y, size=size*0.35, color='orange', 
+                 edgecolor='darkorange', ax=ax)
+    
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom', 
+              label_offset=size*0.75 + 0.2)
+
+
+def detached_binary(x, y, size1=0.25, size2=0.2, separation=1.0,
+                    label_text='Detached Binary', ax=None):
+    """Draw a detached binary system (well-separated stars).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size1 : float, optional
+        Radius of the primary star (default: 0.25).
+    size2 : float, optional
+        Radius of the secondary star (default: 0.2).
+    separation : float, optional
+        Distance between the stars (default: 1.0).
+    label_text : str, optional
+        Text label to display near the binary (default: 'Detached Binary').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    binary(x, y, size_primary=size1, size_secondary=size2, separation=separation,
+           colors_tuple=(colors['ZAMS'], colors['lower_mass_ZAMS']),
+           label_text=label_text, primary=stellar.star, secondary=stellar.star, ax=ax)
+
+
+def semi_detached_binary(x, y, size_donor=0.3, size_accretor=0.25, separation=0.8,
+                         label_text='Semi-Detached', ax=None):
+    """Draw a semi-detached binary system (one star filling Roche lobe).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary system center.
+    y : float
+        Y-coordinate of the binary system center.
+    size_donor : float, optional
+        Size of the Roche-lobe filling donor (default: 0.3).
+    size_accretor : float, optional
+        Radius of the accretor star (default: 0.25).
+    separation : float, optional
+        Distance between the objects (default: 0.8).
+    label_text : str, optional
+        Text label to display near the binary (default: 'Semi-Detached').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    roche_lobe_overflow(x, y, donor_size=size_donor, accretor_size=size_accretor,
+                        separation=separation, label_text=label_text, ax=ax)
+
+
+# ============================================================================
+# MASS TRANSFER AND ACCRETION COMPONENTS
+# ============================================================================
+
+def accretion_disk(x, y, inner_radius=0.1, outer_radius=0.3, 
+                   inclination=0.3, label_text='', label_position='bottom',
+                   label_offset=None, ax=None):
+    """Draw an accretion disk around a compact object.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the disk center.
+    y : float
+        Y-coordinate of the disk center.
+    inner_radius : float, optional
+        Inner radius of the disk (default: 0.1).
+    outer_radius : float, optional
+        Outer radius of the disk (default: 0.3).
+    inclination : float, optional
+        Disk inclination factor (0=face-on, 1=edge-on) (default: 0.3).
+    label_text : str, optional
+        Text label to display near the disk (default: '').
+    label_position : str, optional
+        Position of the label (default: 'bottom').
+    label_offset : float, optional
+        Distance offset from the disk to place the label.
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # Height based on inclination
+    height_outer = outer_radius * 2 * (1 - inclination * 0.7)
+    height_inner = inner_radius * 2 * (1 - inclination * 0.7)
+    
+    # Outer disk
+    outer = Ellipse((x, y), width=outer_radius*2, height=height_outer,
+                    facecolor=colors['disk'], alpha=0.6, 
+                    edgecolor='purple', linewidth=0.5, zorder=1)
+    ax.add_patch(outer)
+    
+    # Middle disk region
+    middle = Ellipse((x, y), width=outer_radius*1.4, height=height_outer*0.7,
+                     facecolor=colors['disk_inner'], alpha=0.7, 
+                     edgecolor='none', zorder=1)
+    ax.add_patch(middle)
+    
+    if label_text:
+        if label_offset is None:
+            label_offset = height_outer/2 + 0.15
+        label(ax, x, y, label_text, label_position, label_offset=label_offset)
+
+
+def mass_transfer_stream(x1, y1, x2, y2, width=0.05, color=None, 
+                         label_text='', ax=None):
+    """Draw a mass transfer stream between two objects.
+    
+    Parameters
+    ----------
+    x1, y1 : float
+        Starting coordinates of the stream (donor).
+    x2, y2 : float
+        Ending coordinates of the stream (accretor).
+    width : float, optional
+        Width of the stream (default: 0.05).
+    color : str, optional
+        Color of the stream (default: uses colors['stream']).
+    label_text : str, optional
+        Text label to display near the stream (default: '').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    color = color or colors['stream']
+    
+    # Create curved stream path
+    mid_x = (x1 + x2) / 2
+    mid_y = (y1 + y2) / 2 + 0.1  # Slight curve upward
+    
+    # Draw stream as a series of points
+    n_points = 20
+    for i in range(n_points):
+        t = i / (n_points - 1)
+        # Quadratic bezier curve
+        bx = (1-t)**2 * x1 + 2*(1-t)*t * mid_x + t**2 * x2
+        by = (1-t)**2 * y1 + 2*(1-t)*t * mid_y + t**2 * y2
+        # Varying width along stream
+        r = width * (1 - 0.5 * t)
+        circle = Circle((bx, by), r, facecolor=color, 
+                        edgecolor='none', alpha=0.6, zorder=2)
+        ax.add_patch(circle)
+    
+    if label_text:
+        label(ax, mid_x, mid_y + 0.15, label_text, label_position='top')
+
+
+def jet(x, y, length=0.8, width=0.1, angle=90, color=None,
+        label_text='', label_position='top', ax=None):
+    """Draw a relativistic jet from a compact object.
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the jet base.
+    y : float
+        Y-coordinate of the jet base.
+    length : float, optional
+        Length of each jet (default: 0.8).
+    width : float, optional
+        Width of the jet at base (default: 0.1).
+    angle : float, optional
+        Angle of the jet in degrees (default: 90, vertical).
+    color : str, optional
+        Color of the jet (default: uses colors['jet']).
+    label_text : str, optional
+        Text label to display near the jet (default: '').
+    label_position : str, optional
+        Position of the label (default: 'top').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    color = color or colors['jet']
+    
+    # Convert angle to radians
+    theta = np.radians(angle)
+    
+    # Calculate jet direction
+    dx = length * np.cos(theta)
+    dy = length * np.sin(theta)
+    
+    # Draw upper jet (cone shape)
+    jet_points_up = [
+        [x - width/2, y],
+        [x + width/2, y],
+        [x + width/4, y + dy],
+        [x - width/4, y + dy]
+    ]
+    jet_up = Polygon(jet_points_up, facecolor=color, alpha=0.7,
+                     edgecolor='darkviolet', linewidth=0.5, zorder=4)
+    ax.add_patch(jet_up)
+    
+    # Draw lower jet (cone shape)
+    jet_points_down = [
+        [x - width/2, y],
+        [x + width/2, y],
+        [x + width/4, y - dy],
+        [x - width/4, y - dy]
+    ]
+    jet_down = Polygon(jet_points_down, facecolor=color, alpha=0.7,
+                       edgecolor='darkviolet', linewidth=0.5, zorder=4)
+    ax.add_patch(jet_down)
+    
+    if label_text:
+        label(ax, x, y + length + 0.1, label_text, label_position)
+
+
+def wind_mass_transfer(x, y, size=0.3, wind_extent=0.5, 
+                       label_text='', ax=None):
+    """Draw wind mass transfer (Bondi-Hoyle accretion visualization).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the star center.
+    y : float
+        Y-coordinate of the star center.
+    size : float, optional
+        Radius of the star (default: 0.3).
+    wind_extent : float, optional
+        Extent of the wind beyond the star (default: 0.5).
+    label_text : str, optional
+        Text label to display (default: '').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on (default: None, uses current axes).
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    
+    # Draw wind shells (concentric circles with decreasing opacity)
+    for i in range(4):
+        shell_size = size + wind_extent * (i + 1) / 4
+        alpha = 0.3 - i * 0.06
+        shell = Circle((x, y), shell_size, facecolor='none',
+                       edgecolor=colors['wind'], linewidth=1, 
+                       alpha=alpha, linestyle='--', zorder=0)
+        ax.add_patch(shell)
+    
+    # Draw the star
+    stellar.star(x, y, size=size, color=colors['BSG'], ax=ax)
+    
+    if label_text:
+        label(ax, x, y, label_text, label_position='bottom',
+              label_offset=size + wind_extent + 0.15)
+
+
+def case_A_RLO(x, y, donor_size=0.35, accretor_size=0.3, separation=0.9,
+               label_text='Case A RLO', ax=None):
+    """Draw Case A Roche Lobe Overflow (during core H burning).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary center.
+    y : float
+        Y-coordinate of the binary center.
+    donor_size : float, optional
+        Size of the donor (default: 0.35).
+    accretor_size : float, optional
+        Size of the accretor (default: 0.3).
+    separation : float, optional
+        Distance between objects (default: 0.9).
+    label_text : str, optional
+        Text label (default: 'Case A RLO').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on.
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    roche_lobe_overflow(x, y, donor_size=donor_size, accretor_size=accretor_size,
+                        separation=separation, donor_color=colors['ZAMS'],
+                        accretor_color=colors['ZAMS'], label_text=label_text, ax=ax)
+
+
+def case_B_RLO(x, y, donor_size=0.45, accretor_size=0.3, separation=1.0,
+               label_text='Case B RLO', ax=None):
+    """Draw Case B Roche Lobe Overflow (during H shell burning/HG).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary center.
+    y : float
+        Y-coordinate of the binary center.
+    donor_size : float, optional
+        Size of the donor (default: 0.45).
+    accretor_size : float, optional
+        Size of the accretor (default: 0.3).
+    separation : float, optional
+        Distance between objects (default: 1.0).
+    label_text : str, optional
+        Text label (default: 'Case B RLO').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on.
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    roche_lobe_overflow(x, y, donor_size=donor_size, accretor_size=accretor_size,
+                        separation=separation, donor_color=colors['HG'],
+                        accretor_color=colors['ZAMS'], label_text=label_text, ax=ax)
+
+
+def case_C_RLO(x, y, donor_size=0.5, accretor_size=0.25, separation=1.1,
+               label_text='Case C RLO', ax=None):
+    """Draw Case C Roche Lobe Overflow (during He shell burning/AGB).
+    
+    Parameters
+    ----------
+    x : float
+        X-coordinate of the binary center.
+    y : float
+        Y-coordinate of the binary center.
+    donor_size : float, optional
+        Size of the donor (default: 0.5).
+    accretor_size : float, optional
+        Size of the accretor (default: 0.25).
+    separation : float, optional
+        Distance between objects (default: 1.1).
+    label_text : str, optional
+        Text label (default: 'Case C RLO').
+    ax : matplotlib.axes.Axes, optional
+        The matplotlib axis to draw on.
+    
+    Returns
+    -------
+    None
+    """
+    ax = ax or plt.gca()
+    roche_lobe_overflow(x, y, donor_size=donor_size, accretor_size=accretor_size,
+                        separation=separation, donor_color=colors['AGB'],
+                        accretor_color=colors['ZAMS'], label_text=label_text, ax=ax)
 
 
 # def CO_binary(ax, x, y, size_star=0.25, size_compact=0.15, separation=0.6, 
