@@ -190,8 +190,8 @@ axes[11].text(0, -2.5, 'Flipped vs normal orientation', ha='center', fontsize=10
 
 # Adjust layout and save
 plt.tight_layout()
-plt.savefig('test_binary.png', dpi=150, bbox_inches='tight')
-print("Figure saved as 'test_binary.png'")
+plt.savefig('tests/test_binary.png', dpi=150, bbox_inches='tight')
+print("Figure saved as 'tests/test_binary.png'")
 print("\nFunctions tested:")
 print("  1. binary() - default ZAMS colors")
 print("  2. binary() - custom colors (orange & light blue)")

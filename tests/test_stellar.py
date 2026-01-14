@@ -84,8 +84,8 @@ axes[5].text(0, -1.7, 'Complete with label', ha='center', fontsize=9)
 
 # Adjust layout and save
 plt.tight_layout()
-plt.savefig('test_stellar.png', dpi=150, bbox_inches='tight')
-print("Figure saved as 'test_stellar.png'")
+plt.savefig('tests/test_stellar.png', dpi=150, bbox_inches='tight')
+print("Figure saved as 'tests/test_stellar.png'")
 print("\nFunctions tested:")
 print("  1. star() - basic star with various properties")
 print("  2. star() - with hatch patterns")

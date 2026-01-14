@@ -36,8 +36,8 @@ def test_simple_grid():
     # Render the grid
     grid.render()
     
-    plt.savefig('test_grid_simple.png', dpi=150, bbox_inches='tight')
-    print("✓ Simple grid test saved as test_grid_simple.png")
+    plt.savefig('tests/test_grid_simple.png', dpi=150, bbox_inches='tight')
+    print("✓ Simple grid test saved as tests/test_grid_simple.png")
     plt.close()
 
 
@@ -86,8 +86,8 @@ def test_binary_grid():
     
     grid.render()
     
-    plt.savefig('test_grid_binary.png', dpi=150, bbox_inches='tight')
-    print("✓ Binary grid test saved as test_grid_binary.png")
+    plt.savefig('tests/test_grid_binary.png', dpi=150, bbox_inches='tight')
+    print("✓ Binary grid test saved as tests/test_grid_binary.png")
     plt.close()
 
 
@@ -132,8 +132,8 @@ def test_complex_grid():
     
     grid.render()
     
-    plt.savefig('test_grid_complex.png', dpi=150, bbox_inches='tight')
-    print("✓ Complex grid test saved as test_grid_complex.png")
+    plt.savefig('tests/test_grid_complex.png', dpi=150, bbox_inches='tight')
+    print("✓ Complex grid test saved as tests/test_grid_complex.png")
     plt.close()
 
 
@@ -169,8 +169,8 @@ def test_directional_arrows():
     
     grid.render()
     
-    plt.savefig('test_grid_directions.png', dpi=150, bbox_inches='tight')
-    print("✓ Directional arrows test saved as test_grid_directions.png")
+    plt.savefig('tests/test_grid_directions.png', dpi=150, bbox_inches='tight')
+    print("✓ Directional arrows test saved as tests/test_grid_directions.png")
     plt.close()
 
 
@@ -195,8 +195,8 @@ def test_evolution_pathway():
     
     grid.render()
     
-    plt.savefig('test_grid_evolution.png', dpi=150, bbox_inches='tight')
-    print("✓ Evolution pathway test saved as test_grid_evolution.png")
+    plt.savefig('tests/test_grid_evolution.png', dpi=150, bbox_inches='tight')
+    print("✓ Evolution pathway test saved as tests/test_grid_evolution.png")
     plt.close()
 
 

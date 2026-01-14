@@ -1,0 +1,92 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+        
+    - name: Create tests output directory
+      run: mkdir -p tests
+      
+    - name: Run test_all.py
+      run: python tests/test_all.py
+      continue-on-error: true
+      
+    - name: Run test_stellar.py
+      run: python tests/test_stellar.py
+      continue-on-error: true
+      
+    - name: Run test_stellar_new.py
+      run: python tests/test_stellar_new.py
+      continue-on-error: true
+      
+    - name: Run test_binary.py
+      run: python tests/test_binary.py
+      continue-on-error: true
+      
+    - name: Run test_binary_new.py
+      run: python tests/test_binary_new.py
+      continue-on-error: true
+      
+    - name: Run test_compact.py
+      run: python tests/test_compact.py
+      continue-on-error: true
+      
+    - name: Run test_arrows.py
+      run: python tests/test_arrows.py
+      continue-on-error: true
+      
+    - name: Run test_outcomes.py
+      run: python tests/test_outcomes.py
+      continue-on-error: true
+      
+    - name: Run test_environment.py
+      run: python tests/test_environment.py
+      continue-on-error: true
+      
+    - name: Run test_multiples.py
+      run: python tests/test_multiples.py
+      continue-on-error: true
+      
+    - name: Run test_mass_transfer.py
+      run: python tests/test_mass_transfer.py
+      continue-on-error: true
+      
+    - name: Run test_grid.py
+      run: python tests/test_grid.py
+      continue-on-error: true
+      
+    - name: List generated test images
+      run: |
+        echo "Generated test images:"
+        ls -lh tests/*.png 2>/dev/null || echo "No PNG files found in tests/"
+        
+    - name: Upload test output images
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-output-images
+        path: tests/*.png
+        retention-days: 30
+        if-no-files-found: warn

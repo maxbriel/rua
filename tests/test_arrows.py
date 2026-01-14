@@ -40,6 +40,6 @@ ax.text(7.5, 0.5, 'Diagonal Arrows', ha='center', fontsize=12, style='italic')
 
 # Save the figure
 plt.tight_layout()
-plt.savefig('test_arrows.png', dpi=150, bbox_inches='tight')
-print("Figure saved as 'test_arrows.png'")
+plt.savefig('tests/test_arrows.png', dpi=150, bbox_inches='tight')
+print("Figure saved as 'tests/test_arrows.png'")
 plt.close()
