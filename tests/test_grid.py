@@ -183,9 +183,9 @@ def test_evolution_pathway():
     
     # Add evolutionary stages
     grid.add_element(0, 0, star, size=0.25, color=colors['ZAMS'], label_text='ZAMS')
-    grid.add_element(0, 1, star, size=0.3, color=colors['MS'], label_text='MS')
+    grid.add_element(0, 1, star, size=0.3, color=colors['HMS'], label_text='MS')
     grid.add_element(0, 2, star, size=0.35, color=colors['RGB'], label_text='RGB')
-    grid.add_element(0, 3, star, size=0.4, color=colors['CHeB'], label_text='CHeB')
+    grid.add_element(0, 3, star, size=0.4, color=colors['BSG'], label_text='CHeB')
     grid.add_element(0, 4, star, size=0.45, color=colors['AGB'], label_text='AGB')
     grid.add_element(0, 5, white_dwarf, size=0.2, label_text='WD')
     
