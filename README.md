@@ -1,17 +1,26 @@
-# Binary Diagrams
+# Rua
 
-A Python package for creating stellar evolution diagrams of binary systems.
+A Python package for creating stellar evolution diagrams of single star and binary systems.
+
+I noticed I was making figures in Google slides, Powerpoint, and Keynote quite often, which 
+worked fine, but required a lot of effort to put together more complex diagrams.
+I created some basic diagrams as a start
 
 ## Features
 
 - Create diagrams for single star evolution.
 - Create complex diagrams for binary star evolution.
+- Contains a grid system for easier diagram creation.
+- Contains a canvas systems for more precise control over figure creation.
 - Visualize various stellar phenomena:
+  - Several pre-defined colour for different evolutionary phases
   - Roche lobe overflow
-  - Common envelope phases
+  - Common envelope
   - Mass transfer
-  - Supernova explosions
-  - Compact object formation (neutron stars, black holes)
+  - Supernova explosion
+  - Compact object formation (white dwarfs, neutron stars, black holes)
+  - A whole bunch of other phenomena
+  - And many more customisations for when you want to create your own astrophysical depiction
 
 ## Installation
 
@@ -21,8 +30,10 @@ A Python package for creating stellar evolution diagrams of binary systems.
 pip install -e .
 ```
 
-### For development
+### Other methods?
 
-```bash
-pip install -e ".[dev]"
-```
+I'm not yet confident about the package to release it on `conda` or `pip` but this will happen soon.
+
+## Credits
+Created by [Max Briel](maxbriel.github.io).
+[Supernova icon by Victoruler - Flaticon](https://www.flaticon.com/free-icons/explosion)
