@@ -12,7 +12,7 @@ from rua.components import stellar, compact
 from rua.components.decorator import label
 
 
-def circumbinary_disk(x, y, inner_radius=0.8, outer_radius=1.5, inclination=0.3,
+def circumbinary_disk(x, y, inner_radius=0.8, outer_radius=1., inclination=0.9,
                       gap_radius=0.6, label_text='Circumbinary Disk', ax=None):
     """Draw a circumbinary disk around a binary system.
     
@@ -101,7 +101,7 @@ def stellar_wind(x, y, star_size=0.3, wind_extent=0.6, n_shells=4,
     # Draw expanding wind shells
     for i in range(n_shells):
         shell_radius = star_size + wind_extent * (i + 1) / n_shells
-        alpha = 0.4 - i * (0.3 / n_shells)
+        alpha = 1.0 - i * (1.0 / n_shells)
         shell = Circle((x, y), shell_radius, facecolor='none',
                        edgecolor=wind_color, linewidth=1.5,
                        alpha=alpha, linestyle='--', zorder=0)
@@ -265,9 +265,9 @@ def pulsar(x, y, ns_size=0.1, beam_length=0.6, beam_width=0.15,
                   color='gray', linewidth=1.5, linestyle='-')
         ax.add_patch(arc)
         # Rotation arrow
-        arrow_x = x + ns_size*2 * np.cos(np.radians(240))
-        arrow_y = y + ns_size*2 * np.sin(np.radians(240))
-        ax.annotate('', xy=(arrow_x - 0.05, arrow_y + 0.03), 
+        arrow_x = x + ns_size*2 * np.cos(np.radians(125))
+        arrow_y = y + ns_size*2 * np.sin(np.radians(125))
+        ax.annotate('', xy=(arrow_x+0.05, arrow_y + 0.04), 
                     xytext=(arrow_x, arrow_y),
                     arrowprops=dict(arrowstyle='->', color='gray', lw=1.5))
     

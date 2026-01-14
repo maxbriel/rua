@@ -20,8 +20,8 @@ ax.set_title('Environment & Structure Components', fontsize=16, fontweight='bold
 
 # Row 1: Disks and winds
 y1 = 12
-circumbinary_disk(2.5, y1, inner_radius=0.9, outer_radius=1.6, 
-                  inclination=0.3, gap_radius=0.7, label_text='Circumbinary Disk')
+circumbinary_disk(2.5, y1, inner_radius=0.9, outer_radius=1.3, 
+                  inclination=0.9, gap_radius=0.7, label_text='Circumbinary Disk')
 # Add binary inside the disk
 star(2.2, y1, size=0.15, color=colors['ZAMS'], ax=ax)
 star(2.8, y1, size=0.12, color=colors['lower_mass_ZAMS'], ax=ax)
